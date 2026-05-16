@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ישראל ישראלי - משרד עורכי דין</title>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- הגדרות צבעים ובסיס --- */
+        :root {
+            --primary-color: #1a2b4c;
+            --accent-color: #d4af37;
+            --text-color: #333333;
+            --bg-light: #f4f7f6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Heebo', sans-serif;
+            color: var(--text-color);
+            line-height: 1.6;
+            background-color: #ffffff;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* --- תפריט ניווט --- */
+        .header-wrapper {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 16px 10%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .logo {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-name {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+
+        .logo-disclaimer {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.55);
+            margin-top: 2px;
+            font-weight: 300;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        nav ul li a {
+            position: relative;
+            padding: 8px 14px;
+            border-radius: 6px;
+            transition: color 0.25s ease, background 0.25s ease;
+            font-size: 15px;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            right: 14px;
+            left: 14px;
+            height: 2px;
+            background: var(--accent-color);
+            border-radius: 2px;
+            transform: scaleX(0);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: center;
+        }
+
+        nav ul li a:hover {
+            color: var(--accent-color);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        nav ul li a.active {
+            color: var(--accent-color);
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        nav ul li a.active::after {
+            transform: scaleX(1);
+        }
+
+        /* --- Hamburger (mobile) --- */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 6px;
+            background: none;
+            border: none;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 26px;
+            height: 2px;
+            background: white;
+            border-radius: 2px;
+            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                        opacity 0.25s ease,
+                        width 0.3s ease;
+            transform-origin: center;
+        }
+
+        .hamburger.open span:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+        .hamburger.open span:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+        .hamburger.open span:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: var(--primary-color);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                        opacity 0.3s ease;
+            opacity: 0;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+        }
+
+        .mobile-menu.open {
+            max-height: 400px;
+            opacity: 1;
+        }
+
+        .mobile-menu a {
+            padding: 14px 10%;
+            font-size: 17px;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            transition: color 0.2s, background 0.2s;
+        }
+
+        .mobile-menu a:hover,
+        .mobile-menu a.active {
+            color: var(--accent-color);
+            background: rgba(255,255,255,0.05);
+        }
+
+        @media (max-width: 768px) {
+            nav { display: none; }
+            .hamburger { display: flex; }
+            .mobile-menu { display: flex; }
+        }
+
+        /* --- אזור ראשי (Hero) עם תמונת רקע ופייד --- */
+        .hero {
+            background: linear-gradient(rgba(26, 43, 76, 0.72), rgba(26, 43, 76, 0.88)),
+                        url('law1.jpeg') center / cover no-repeat fixed;
+            padding: 130px 10%;
+            text-align: center;
+            border-bottom: 5px solid var(--accent-color);
+            animation: heroFadeIn 1.6s ease-in-out;
+        }
+
+        @keyframes heroFadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            color: #ffffff;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+
+        .hero p {
+            font-size: 20px;
+            max-width: 600px;
+            margin: 0 auto 30px auto;
+            color: rgba(255, 255, 255, 0.88);
+        }
+
+        .btn {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 12px 30px;
+            font-size: 18px;
+            font-weight: 700;
+            border-radius: 5px;
+            transition: background 0.3s;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: #b5952f;
+        }
+
+        /* --- כותרות סקשנים --- */
+        .section-title {
+            font-size: 32px;
+            color: var(--primary-color);
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        /* --- תחומי התמחות --- */
+        .services {
+            padding: 80px 10%;
+            text-align: center;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            border-top: 4px solid var(--primary-color);
+            transition: transform 0.3s ease, border-top-color 0.3s ease;
+            overflow: hidden;
+            text-align: right;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-top-color: var(--accent-color);
+        }
+
+        .service-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .service-card-body {
+            padding: 25px 25px 30px;
+        }
+
+        .service-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 12px;
+            font-size: 20px;
+        }
+
+        .service-card p {
+            font-size: 15px;
+            color: #555;
+            margin-bottom: 14px;
+        }
+
+        .service-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .service-card ul li {
+            font-size: 14px;
+            color: #666;
+            padding: 4px 0;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .service-card ul li::before {
+            content: '✓';
+            color: var(--accent-color);
+            font-weight: 700;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        /* --- אזור כתבות ומאמרים --- */
+        .articles {
+            padding: 80px 10%;
+            background-color: var(--bg-light);
+        }
+
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .article-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .article-content {
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .article-date {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 10px;
+        }
+
+        .article-content h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .article-content p {
+            font-size: 15px;
+            color: #555;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .read-more {
+            color: var(--accent-color);
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        .read-more:hover {
+            text-decoration: underline;
+        }
+
+        /* --- אודות --- */
+        .about-section {
+            padding: 80px 10%;
+            background-color: #fff;
+        }
+
+        .about-intro {
+            max-width: 820px;
+            margin: 0 auto 50px;
+            text-align: center;
+        }
+
+        .about-intro p {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #444;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 20px;
+            max-width: 820px;
+            margin: 0 auto 55px;
+            text-align: center;
+        }
+
+        .stat-box {
+            background: var(--primary-color);
+            color: white;
+            padding: 30px 20px;
+            border-radius: 8px;
+        }
+
+        .stat-box .stat-num {
+            font-size: 40px;
+            font-weight: 700;
+            color: var(--accent-color);
+            line-height: 1;
+        }
+
+        .stat-box .stat-label {
+            font-size: 14px;
+            margin-top: 8px;
+            opacity: 0.85;
+        }
+
+        .about-values {
+            max-width: 820px;
+            margin: 0 auto 50px;
+        }
+
+        .about-values h3 {
+            font-size: 24px;
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .value-item {
+            background: var(--bg-light);
+            padding: 24px;
+            border-radius: 8px;
+            border-right: 4px solid var(--accent-color);
+        }
+
+        .value-item h4 {
+            color: var(--primary-color);
+            margin-bottom: 8px;
+            font-size: 17px;
+        }
+
+        .value-item p {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .about-team {
+            max-width: 820px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .about-team h3 {
+            font-size: 24px;
+            color: var(--primary-color);
+            margin-bottom: 25px;
+        }
+
+        .about-team p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.7;
+        }
+
+        /* --- צור קשר --- */
+        .contact-container {
+            display: flex;
+            flex-wrap: wrap;
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .contact-info, .contact-map {
+            flex: 1;
+            min-width: 300px;
+            padding: 60px 10%;
+        }
+
+        .contact-info h2 {
+            color: var(--accent-color);
+            margin-bottom: 25px;
+            font-size: 32px;
+        }
+
+        .contact-info p {
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .contact-map {
+            padding: 0;
+            min-height: 350px;
+        }
+
+        .contact-map iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* --- כותרת תחתונה (Footer) --- */
+        footer {
+            background-color: #111;
+            color: #777;
+            text-align: center;
+            padding: 25px 20px;
+            font-size: 14px;
+        }
+
+        footer .footer-disclaimer {
+            margin-top: 6px;
+            font-size: 12px;
+            color: #555;
+        }
+
+        .footer-links {
+            margin-top: 14px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links button {
+            background: none;
+            border: none;
+            color: #777;
+            cursor: pointer;
+            font-family: 'Heebo', sans-serif;
+            font-size: 13px;
+            text-decoration: underline;
+            transition: color 0.2s;
+        }
+
+        .footer-links button:hover {
+            color: var(--accent-color);
+        }
+
+        /* --- Modal --- */
+        .modal-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-backdrop.open {
+            display: flex;
+        }
+
+        .modal-box {
+            background: white;
+            border-radius: 12px;
+            max-width: 640px;
+            width: 100%;
+            max-height: 82vh;
+            overflow-y: auto;
+            padding: 36px 36px 36px;
+            position: relative;
+            text-align: right;
+            direction: rtl;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 14px;
+            left: 16px;
+            background: none;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            color: #999;
+            line-height: 1;
+        }
+
+        .modal-close:hover { color: #333; }
+
+        .modal-box h3 {
+            font-size: 24px;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .modal-body {
+            font-size: 15px;
+            color: #444;
+            line-height: 1.75;
+        }
+
+        .modal-body p {
+            margin-bottom: 14px;
+        }
+
+        .modal-body ul {
+            list-style: disc;
+            padding-right: 22px;
+            margin: 8px 0 14px;
+        }
+
+        .modal-body ul li {
+            margin-bottom: 6px;
+        }
+
+        .modal-body a {
+            color: var(--accent-color);
+            text-decoration: underline;
+        }
+
+        /* --- התאמה למובייל --- */
+        @media (max-width: 768px) {
+            header {
+                flex-wrap: wrap;
+            }
+            .hero h1 { font-size: 36px; }
+            .contact-container { flex-direction: column; }
+            .contact-map { min-height: 300px; }
+            .modal-box { padding: 24px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-wrapper">
+    <header>
+        <div class="logo">
+            <div class="logo-name">ישראל ישראלי ושות'</div>
+            <div class="logo-disclaimer">האתר הינו להמחשה בלבד | המציג אינו עורך דין</div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#home" class="nav-link">ראשי</a></li>
+                <li><a href="#services" class="nav-link">תחומי עיסוק</a></li>
+                <li><a href="#articles" class="nav-link">מאמרים</a></li>
+                <li><a href="#about" class="nav-link">אודות</a></li>
+                <li><a href="#contact" class="nav-link">צור קשר</a></li>
+            </ul>
+        </nav>
+        <button class="hamburger" id="hamburger" aria-label="תפריט">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </header>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#home" class="nav-link">ראשי</a>
+        <a href="#services" class="nav-link">תחומי עיסוק</a>
+        <a href="#articles" class="nav-link">מאמרים</a>
+        <a href="#about" class="nav-link">אודות</a>
+        <a href="#contact" class="nav-link">צור קשר</a>
+    </div>
+    </div>
+
+    <section id="home" class="hero">
+        <h1>הצדק שלך, המקצועיות שלנו</h1>
+        <p>משרד עורכי דין מוביל המעניק ייעוץ משפטי מקיף, ליווי אישי וייצוג ללא פשרות בערכאות השונות. אנחנו כאן כדי להילחם על הזכויות שלך.</p>
+        <a href="#contact" class="btn">קבע פגישת ייעוץ</a>
+    </section>
+
+    <section id="services" class="services">
+        <h2 class="section-title">תחומי התמחות</h2>
+        <div class="services-grid">
+
+            <div class="service-card">
+                <img src="law2.jpeg" alt="משפט אזרחי ומסחרי">
+                <div class="service-card-body">
+                    <h3>משפט אזרחי ומסחרי</h3>
+                    <p>אנו מלווים חברות, יזמים ועסקים בכל היבטי הפעילות המסחרית — מניהול יומיומי ועד ניהול סכסוכים בבית המשפט.</p>
+                    <ul>
+                        <li>עריכת חוזים מסחריים והסכמי שיתוף פעולה</li>
+                        <li>ליטיגציה בבתי המשפט המחוזיים והשלום</li>
+                        <li>גביית חובות וייצוג בהוצאה לפועל</li>
+                        <li>ייעוץ שוטף לחברות ועסקים קטנים ובינוניים</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <img src="law3.jpeg" alt="דיני משפחה וירושה">
+                <div class="service-card-body">
+                    <h3>דיני משפחה וירושה</h3>
+                    <p>הליכי משפחה הם מהרגישים ביותר. אנו מעניקים ייצוג מקצועי מלא תוך גישה אמפתית, דיסקרטית ורגישה לנסיבות האישיות של כל לקוח.</p>
+                    <ul>
+                        <li>גירושין, משמורת ומזונות ילדים</li>
+                        <li>הסכמי ממון טרם נישואין ובמהלכם</li>
+                        <li>עריכת צוואות ותכנון ירושה</li>
+                        <li>ניהול עיזבונות ותביעות ירושה שנויות במחלוקת</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <img src="law4.jpeg" alt="מקרקעין ונדל&quot;ן">
+                <div class="service-card-body">
+                    <h3>מקרקעין ונדל"ן</h3>
+                    <p>עסקאות נדל"ן כרוכות בסכומים גדולים ובסיכונים משפטיים משמעותיים. אנו מלווים רוכשים, מוכרים ויזמים לאורך כל שלבי העסקה.</p>
+                    <ul>
+                        <li>עסקאות מכר וקנייה — דירות, מסחרי וקרקעות</li>
+                        <li>בדיקת נאותות משפטית לפני רכישה</li>
+                        <li>ליווי פרויקטים של תמ"א 38 ופינוי–בינוי</li>
+                        <li>חוזי שכירות ורישום בטאבו</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="articles" class="articles">
+        <h2 class="section-title">מאמרים ועדכונים משפטיים</h2>
+        <div class="articles-grid">
+
+            <div class="article-card">
+                <div class="article-content">
+                    <div class="article-date">15 במאי 2026</div>
+                    <h3>רכישת דירה מקבלן: ממה כדאי להיזהר?</h3>
+                    <p>רכישת דירה היא לרוב העסקה הכלכלית הגדולה ביותר בחייכם. לפני שחותמים, חשוב לבדוק את ערבויות חוק המכר, את לוחות הזמנים למסירה ואת המפרט הטכני כדי למנוע הפתעות כואבות בהמשך.</p>
+                    <a href="#" class="read-more">קרא את המאמר המלא &larr;</a>
+                </div>
+            </div>
+
+            <div class="article-card">
+                <div class="article-content">
+                    <div class="article-date">2 במאי 2026</div>
+                    <h3>חשיבותו של הסכם מייסדים בסטארט-אפ</h3>
+                    <p>יזמים רבים רצים להקים חברה בלי להסדיר את היחסים ביניהם. הסכם מייסדים מקצועי מגדיר מראש את חלוקת המניות, מנגנוני קבלת החלטות ומה קורה אם אחד השותפים מחליט לעזוב את המיזם.</p>
+                    <a href="#" class="read-more">קרא את המאמר המלא &larr;</a>
+                </div>
+            </div>
+
+            <div class="article-card">
+                <div class="article-content">
+                    <div class="article-date">18 באפריל 2026</div>
+                    <h3>צוואה דיגיטלית: עידן חדש בדיני ירושה</h3>
+                    <p>בעולם שבו הנכסים שלנו הופכים ליותר ויותר דיגיטליים (מטבעות קריפטוגרפיים, חשבונות עסקיים ברשתות, ועוד), חשוב להבין כיצד החוק מתייחס לירושת נכסים שאינם פיזיים ואיך להגן עליהם.</p>
+                    <a href="#" class="read-more">קרא את המאמר המלא &larr;</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="about" class="about-section">
+        <h2 class="section-title">אודות המשרד</h2>
+
+        <div class="about-intro">
+            <p>משרד עורכי הדין ישראל ישראלי ושות' הוקם בשנת 2010 ושם לו למטרה להעניק שירות משפטי ברמה הגבוהה ביותר, תוך דגש על אמינות, שקיפות וזמינות ללקוח.</p>
+            <p>אנו מאמינים כי לכל תיק יש אסטרטגיה ייחודית משלו, ולכן אנו תופרים פתרון משפטי מותאם אישית לכל לקוח, עד להשגת התוצאה הטובה ביותר ושמירה מלאה על האינטרסים שלו.</p>
+            <p>המשרד מונה צוות של שלושה עורכי דין בכירים ומומחים בתחומם, לצד צוות מנהלי מיומן. אנו מתגאים ביחס אישי ומסור לכל לקוח ולקוחה, ובזמינות גבוהה לאורך כל שלבי ההליך המשפטי.</p>
+        </div>
+
+        <div class="about-stats">
+            <div class="stat-box">
+                <div class="stat-num">15+</div>
+                <div class="stat-label">שנות ניסיון</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-num">800+</div>
+                <div class="stat-label">תיקים שטופלו</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-num">3</div>
+                <div class="stat-label">עורכי דין בכירים</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-num">95%</div>
+                <div class="stat-label">שביעות רצון לקוחות</div>
+            </div>
+        </div>
+
+        <div class="about-values">
+            <h3>הערכים שמנחים אותנו</h3>
+            <div class="values-grid">
+                <div class="value-item">
+                    <h4>מקצועיות ללא פשרות</h4>
+                    <p>כל תיק מקבל את מלוא תשומת הלב, הידע וההכנה הנדרשים — בלי קיצורי דרך.</p>
+                </div>
+                <div class="value-item">
+                    <h4>שקיפות מלאה</h4>
+                    <p>הלקוח יודע בכל רגע נתון היכן עומד התיק שלו, מה האפשרויות ומה העלויות הצפויות.</p>
+                </div>
+                <div class="value-item">
+                    <h4>זמינות ויחס אישי</h4>
+                    <p>אנחנו זמינים לשאלות ולעדכונים, ומוודאים שהלקוח לעולם לא מרגיש לבד בהליך.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-container">
+        <div class="contact-info">
+            <h2>צור קשר</h2>
+            <p>נשמח לעמוד לרשותך בכל שאלה או בעיה משפטית. השאר פרטים או צור קשר ישירות:</p>
+            <br>
+            <p><strong>טלפון:</strong> 03-123-4567</p>
+            <p><strong>דוא"ל:</strong> office@israel-law.co.il</p>
+            <p><strong>כתובת:</strong> חיים ויצמן 14, תל אביב</p>
+            <p><strong>שעות פעילות:</strong> א'-ה' 08:30 - 18:00</p>
+        </div>
+
+        <div class="contact-map">
+            <iframe
+                src="https://maps.google.com/maps?q=%D7%90%D7%A0%D7%9A%20%D7%95%D7%99%D7%A6%D7%9E%D7%9F%2014%20%D7%AA%D7%9C%20%D7%90%D7%91%D7%99%D7%91&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                allowfullscreen=""
+                loading="lazy">
+            </iframe>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 כל הזכויות שמורות לישראל ישראלי - משרד עורכי דין.</p>
+        <p class="footer-disclaimer">האתר הינו להמחשה בלבד | המציג אינו עורך דין</p>
+        <div class="footer-links">
+            <button onclick="openModal('privacy')">מדיניות פרטיות</button>
+            <button onclick="openModal('accessibility')">הצהרת נגישות</button>
+            <button onclick="openModal('terms')">תנאי שימוש</button>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div id="modalBackdrop" class="modal-backdrop" onclick="closeModal()">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal()">✕</button>
+            <h3 id="modalTitle"></h3>
+            <div id="modalBody" class="modal-body"></div>
+        </div>
+    </div>
+
+    <script>
+        /* --- Hamburger toggle --- */
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('open');
+            mobileMenu.classList.toggle('open');
+        });
+
+        /* Close mobile menu when a link is clicked */
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('open');
+                mobileMenu.classList.remove('open');
+            });
+        });
+
+        /* --- Active nav link on scroll --- */
+        const sections = [
+            { id: 'home',     el: null },
+            { id: 'services', el: null },
+            { id: 'articles', el: null },
+            { id: 'about',    el: null },
+            { id: 'contact',  el: null },
+        ];
+
+        sections.forEach(s => { s.el = document.getElementById(s.id); });
+
+        function updateActive() {
+            const headerH = document.querySelector('header').offsetHeight;
+            const atBottom = window.scrollY + window.innerHeight >= document.body.scrollHeight - 10;
+            let current = sections[0].id;
+
+            if (atBottom) {
+                current = sections[sections.length - 1].id;
+            } else {
+                sections.forEach(({ id, el }) => {
+                    if (el && el.getBoundingClientRect().top <= headerH + 60) current = id;
+                });
+            }
+
+            document.querySelectorAll('.nav-link').forEach(a => {
+                a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+            });
+        }
+
+        window.addEventListener('scroll', updateActive, { passive: true });
+        updateActive();
+
+        /* --- Smooth scroll with header offset --- */
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', e => {
+                const target = document.querySelector(link.getAttribute('href'));
+                if (!target) return;
+                e.preventDefault();
+                const offset = document.querySelector('header').offsetHeight;
+                window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - offset, behavior: 'smooth' });
+            });
+        });
+
+        /* --- Modals --- */
+        const modalContent = {
+            privacy: {
+                title: 'מדיניות פרטיות',
+                body: `
+                    <p>משרד עו"ד ישראל ישראלי ושות' (להלן: "החברה") מפעילה את אתר האינטרנט שלה. החברה מכבדת את פרטיות המשתמשים ומתחייבת לשמור על המידע האישי בהתאם להוראות הדין, לרבות חוק הגנת הפרטיות, התשמ"א-1981, והתקנות מכוחו.</p>
+                    <p>כניסה לאתר והשימוש בו מהווים הסכמה למדיניות זו.</p>
+                    <p><strong>1. איסוף מידע</strong><br>החברה אוספת מידע אישי שמסרת באופן ישיר או עקיף, לרבות:</p>
+                    <ul>
+                        <li>פרטי יצירת קשר (שם, טלפון, כתובת דוא"ל).</li>
+                        <li>פרטים ומסמכים המועברים דרך טפסים או מערכות באתר.</li>
+                        <li>נתוני שימוש ופעילות באתר (כולל כתובת IP, סוג דפדפן, מיקום משוער, ודפים בהם ביקרת) באמצעות עוגיות (Cookies) וכלי ניתוח כמו Google Analytics ו־Facebook Pixel.</li>
+                    </ul>
+                    <p><strong>2. מטרות השימוש במידע</strong><br>החברה תעשה שימוש במידע לצורך:</p>
+                    <ul>
+                        <li>מתן שירות, מענה לפניות והצעת הצעות מחיר.</li>
+                        <li>שיפור השירותים וחוויית המשתמש באתר.</li>
+                        <li>שליחת עדכונים, ניוזלטרים, חומר שיווקי והצעות מסחריות.</li>
+                        <li>ביצוע ניתוחים סטטיסטיים ומעקב אחר ביצועי קמפיינים.</li>
+                        <li>פרסום ממוקד ורימרקטינג באמצעות פלטפורמות פרסום מקוונות.</li>
+                    </ul>
+                    <p><strong>3. מסירת מידע לצדדים שלישיים</strong><br>החברה רשאית לשתף מידע עם:</p>
+                    <ul>
+                        <li>ספקי שירות טכנולוגיים, לרבות שירותי אחסון, CRM, מערכות דיוור, פלטפורמות פרסום, ספקי ניתוח נתונים וכיו"ב.</li>
+                        <li>צדדים שלישיים לצורך עיבוד נתונים ופרסום ממוקד.</li>
+                        <li>העברת מידע לשרתים מחוץ לישראל, בכפוף להוראות הדין.</li>
+                    </ul>
+                    <p><strong>4. שמירת מידע</strong><br>החברה שומרת את המידע שנאסף ללא הגבלת זמן, כל עוד הדבר דרוש למטרות לשמן נאסף המידע, או לצורך עמידה בהוראות כל דין.</p>
+                    <p><strong>5. עוגיות (Cookies)</strong><br>האתר עושה שימוש בעוגיות וטכנולוגיות מעקב אחרות לצורך תפעולו השוטף, התאמה אישית של התוכן, שיווק, ניתוח סטטיסטי ומעקב אחר קמפיינים.</p>
+                    <p>המשתמש רשאי לחסום או למחוק עוגיות דרך הגדרות הדפדפן, אולם פעולה זו עלולה לגרום לפגיעה בחוויית השימוש באתר.</p>
+                    <p><strong>6. אבטחת מידע</strong><br>החברה נוקטת באמצעי אבטחה סבירים על מנת להגן על המידע האישי מפני גישה בלתי מורשית, שימוש לרעה, שינוי או חשיפה. עם זאת, החברה אינה יכולה להבטיח הגנה מוחלטת.</p>
+                    <p><strong>7. זכויות המשתמש</strong><br>בהתאם לחוק הגנת הפרטיות, כל אדם זכאי לעיין במידע שנאסף עליו ולבקש את תיקונו או מחיקתו באמצעות פנייה לכתובת המייל המופיעה להלן.</p>
+                    <p><strong>8. יצירת קשר</strong><br>לשאלות או בקשות בנושאי פרטיות, ניתן לפנות לכתובת הדוא"ל: <a href="mailto:office@israel-law.co.il">office@israel-law.co.il</a></p>
+                `
+            },
+            accessibility: {
+                title: 'הצהרת נגישות',
+                body: `
+                    <p>אתר משרד עורכי דין ישראל ישראלי ושות' מחויב לחוק ההנגשה. אנו רואים חשיבות רבה במתן שירות שוויוני לכלל האזרחים ובשיפור השירות הניתן לאזרחים עם מוגבלות. אנו משקיעים משאבים רבים בהנגשת האתר והנכסים הדיגיטליים שלנו על מנת להפוך את שירותי האתר לזמינים יותר עבור אנשים עם מוגבלות.</p>
+                    <p>במדינת ישראל כ-20 אחוזים מקרב האוכלוסייה הינם אנשים עם מוגבלות הזקוקים לנגישות דיגיטלית, על מנת לצרוך מידע ושירותים אחרים באינטרנט.</p>
+                    <p>הנגשת האתר נועדה להפוך אותנו לזמינים, ידידותיים ונוחים יותר לשימוש עבור אוכלוסיות עם צרכים מיוחדים, הנובעים בין היתר ממוגבלויות מוטוריות שונות, לקויות קוגניטיביות, קוצר רואי, עיוורון או עיוורון צבעים, לקויות שמיעה וכן אוכלוסייה הנמנית על בני הגיל השלישי.</p>
+                    <p><strong>רמת הנגישות</strong><br>האתר מותאם לדפדפנים הנפוצים ולשימוש בטלפון הסלולרי.</p>
+                    <p>האתר מקפיד על עמידה בדרישות תקנות שיוויון זכויות לאנשים עם מוגבלות (התאמות נגישות לשירות), התשע"ג 2013 ברמת AA, וכן מיישם את המלצות מסמך WCAG2.0 מאת ארגון W3C.</p>
+                    <p>בעברית: WCAG 2.0 הנחיות לנגישות תכנים באינטרנט<br>באנגלית: Web Content Accessibility Guidelines (WCAG) 2.0</p>
+                    <p>האתר פועל בהתאם להנחיות רשות התקשוב להנגשת יישומים בדפדפני אינטרנט.</p>
+                    <p><strong>תיקונים והתאמות שבוצעו</strong></p>
+                    <ul>
+                        <li>אמצעי הניווט באתר פשוטים וברורים.</li>
+                        <li>תכני האתר כתובים באופן ברור, מסודר והיררכי. במידת הצורך קיימים הסברים לצד התוכן.</li>
+                        <li>האתר מותאם לצפייה בדפדפנים מודרניים.</li>
+                        <li>התאמת האתר לתצוגה תואמת מגוון מסכים ורזולוציות.</li>
+                        <li>תוכן האתר כתוב בשפה פשוטה וברורה.</li>
+                        <li>כל הדפים באתר בעלי מבנה קבוע.</li>
+                        <li>לכל התמונות באתר יש הסבר טקסטואלי חלופי (alt).</li>
+                        <li>האתר מאפשר שינוי גודל הגופן על ידי שימוש במקש Ctrl וגלגלת העכבר.</li>
+                        <li>אין באתר שימוש בתצוגת טקסט מהבהב.</li>
+                    </ul>
+                    <p><strong>החרגות</strong><br>חשוב לציין, כי למרות מאמצינו להנגיש את כלל הדפים באתר וביתר הנכסים הדיגיטליים שלנו, ייתכן שיתגלו חלקים או יכולות שלא הונגשו כראוי או שטרם הונגשו.</p>
+                    <p>אנו פועלים לשפר את נגישות הנכסים הדיגיטליים שלנו ובתוכם, מנגישים באופן שוטף טפסים מקוונים, כחלק ממחויבותנו לאפשר לכלל האוכלוסייה להשתמש בהם, כולל אנשים עם מוגבלות.</p>
+                    <p><strong>יצירת קשר בנושא נגישות</strong><br>אם נתקלתם בבעיה בנושא נגישות באתר או באחד ממוצרינו, נשמח לקבל הערות ובקשות, באמצעות פנייה לאחראי הנגישות באתר בדואר האלקטרוני <a href="mailto:office@israel-law.co.il">office@israel-law.co.il</a></p>
+                    <p>כדי שנוכל לטפל בבעיה בדרך הטובה ביותר, אנו ממליצים מאוד לצרף פרטים מלאים ככל שניתן:</p>
+                    <ul>
+                        <li>תיאור הבעיה.</li>
+                        <li>מהי הפעולה שניסיתם לבצע.</li>
+                        <li>קישור לדף בו גלשתם.</li>
+                        <li>סוג הדפדפן וגרסתו.</li>
+                        <li>מערכת הפעלה.</li>
+                        <li>סוג הטכנולוגיה המסייעת (במידה והשתמשתם).</li>
+                    </ul>
+                    <p>האתר יעשה ככל שביכולתו על מנת להנגיש את האתר בצורה המיטבית ולענות לפניות בצורה המקצועית והמהירה ביותר.</p>
+                    <p><strong>מידע נוסף בנושאי נגישות</strong><br>נציבות שוויון זכויות לאנשים עם מוגבלות</p>
+                `
+            },
+            terms: {
+                title: 'תקנון ותנאי שימוש',
+                body: `
+                    <p>ברוכים הבאים לאתר האינטרנט של משרד עורכי דין ישראל ישראלי ושות'.</p>
+                    <p>השימוש באתר, בתכנים הכלולים בו ובשירותים המוצעים בו, כפוף לתנאי השימוש המפורטים להלן. גלישה באתר, כניסה אליו או כל שימוש אחר בו, ייחשבו כהסכמה מפורשת, בלתי מסויגת ומלאה מצדך (להלן: "המשתמש") לתנאים אלה. אם אינך מסכים לתנאי כלשהו מהתנאים המפורטים להלן, אנא הפסק את השימוש באתר לאלתר.</p>
+                    <p><strong>1. הבהרה משפטית חשובה: התוכן באתר אינו מהווה ייעוץ משפטי</strong><br>כל המידע, התכנים, המאמרים, הטיפים והנתונים המופיעים באתר (להלן: "התוכן") נועדו למטרות אינפורמטיביות, כלליות ושיווקיות בלבד. התוכן אינו מהווה, ואין לראות בו, ייעוץ משפטי, חוות דעת משפטית, המלצה לנקוט או להימנע מנקיטת פעולה מסוימת, או תחליף לייעוץ משפטי פרטני ומקצועי המותאם לנסיבות הספציפיות של כל מקרה ומקרה.</p>
+                    <p>הסתמכות על התוכן המוצג באתר הינה על אחריותו הבלעדית של המשתמש. המשרד אינו נושא באחריות לכל נזק, ישיר או עקיף, מכל סוג שהוא, שייגרם למשתמש או לצד שלישי כלשהו עקב השימוש בתוכן האתר או הסתמכות עליו.</p>
+                    <p><strong>2. העדר יחסי עורך דין-לקוח</strong><br>השימוש באתר, הגלישה בו, קריאת התכנים, פנייה באמצעות טפסי יצירת קשר או משלוח דואר אלקטרוני למשרד דרך האתר, אינם יוצרים ואינם מכוננים יחסי עורך דין-לקוח בין המשרד או עו"ד ישראל ישראלי לבין המשתמש.</p>
+                    <p>יחסי עורך דין-לקוח, על כל המשתמע מכך (לרבות חובת סודיות וחיסיון), ייווצרו אך ורק לאחר חתימה על הסכם שכר טרחה מסודר וכתוב בין המשרד לבין הלקוח. עד לאותו מועד, אין להעביר מידע רגיש, סודי או כזה המוגן בחיסיון באמצעות האתר או טפסי יצירת קשר.</p>
+                    <p><strong>3. קניין רוחני</strong><br>כל הזכויות באתר, לרבות העיצוב, הטקסטים, המאמרים, הלוגו, סימני המסחר, התמונות, הגרפיקה, קוד המקור, וכל תוכן אחר המופיע בו, שייכות בלעדית למשרד (עו"ד ישראל ישראלי ושות') או לצדדים שלישיים אשר העניקו למשרד רישיון לעשות בהם שימוש.</p>
+                    <p>אין להעתיק, לשכפל, להפיץ, להציג בפומבי, לתרגם, לשנות, לעבד, לעשות שימוש מסחרי, או להעביר לצד שלישי כלשהו כל חלק מתכני האתר ללא קבלת אישור מפורש, מראש ובכתב, מעו"ד ישראל ישראלי.</p>
+                    <p><strong>4. דיוק המידע ושינויים באתר</strong><br>המשרד עושה מאמצים על מנת לוודא שהתוכן המוצג באתר יהיה מדויק, עדכני ומקיף. עם זאת, התוכן נכון למועד כתיבתו בלבד, והמצב המשפטי עשוי להשתנות במהירות עקב שינויי חקיקה, פסיקה או פרשנות.</p>
+                    <p>המשרד אינו מתחייב לדיוק המידע או לעדכניותו, ואינו נושא באחריות לכל אי-דיוק, טעות או השמטה בתוכן האתר. המשרד שומר לעצמו את הזכות לעדכן, לשנות, להוסיף או להסיר תכנים מהאתר בכל עת, ללא הודעה מראש.</p>
+                    <p><strong>5. קישורים לצדדים שלישיים</strong><br>האתר עשוי להכיל קישורים לאתרי אינטרנט חיצוניים המופעלים על ידי צדדים שלישיים. קישורים אלה נועדו לנוחות המשתמש בלבד. המשרד אינו שולט באתרים חיצוניים אלה, אינו נושא באחריות לתוכנם, למדיניות הפרטיות שלהם או לפעילותם.</p>
+                    <p><strong>6. הגבלת אחריות</strong><br>המשרד, שותפיו, עובדיו ועו"ד ישראל ישראלי לא יישאו באחריות לכל נזק, ישיר או עקיף, תוצאתי, מיוחד או עונשי, אשר נגרם למשתמש או לצד שלישי כלשהו עקב השימוש באתר, עקב הסתמכות על המידע המוצג בו, עקב תקלה טכנית בזמינות האתר, עקב וירוסים או תוכנות זדוניות אחרות שהועברו דרכו, או עקב אובדן מידע כלשהו.</p>
+                    <p><strong>7. מדיניות פרטיות</strong><br>המשרד מכבד את פרטיות המשתמשים. השימוש באתר כפוף גם למדיניות הפרטיות של האתר, המהווה חלק בלתי נפרד מתנאי שימוש אלה.</p>
+                    <p><strong>8. הדין החל וסמכות שיפוט</strong><br>על תנאי שימוש אלה, ועל כל מחלוקת או סכסוך הנובעים מהשימוש באתר או מתנאים אלה, יחול הדין הישראלי בלבד. סמכות השיפוט הבלעדית תהיה מסורה לבתי המשפט המוסמכים במחוז תל אביב-יפו בלבד.</p>
+                    <p><strong>9. שינויים בתקנון</strong><br>המשרד שומר לעצמו את הזכות לעדכן או לשנות את תנאי השימוש מעת לעת, ללא הודעה מראש. התנאים המעודכנים יפורסמו באתר וייכנסו לתוקף ממועד פרסומם. מומלץ למשתמש לעיין בתנאי השימוש באופן תקופתי.</p>
+                    <p><strong>10. פרטי התקשרות</strong><br>לכל שאלה, הבהרה או דיווח על תקלה באתר, ניתן ליצור קשר עם המשרד בכתובת המייל: <a href="mailto:office@israel-law.co.il">office@israel-law.co.il</a> או בטלפון: 03-123-4567.</p>
+                `
+            }
+        };
+
+        function openModal(type) {
+            const data = modalContent[type];
+            document.getElementById('modalTitle').textContent = data.title;
+            document.getElementById('modalBody').innerHTML = data.body;
+            document.getElementById('modalBackdrop').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('modalBackdrop').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+    </script>
+
+</body>
+</html>
