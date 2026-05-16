@@ -189,7 +189,7 @@
         /* --- אזור ראשי (Hero) עם תמונת רקע ופייד --- */
         .hero {
             background: linear-gradient(rgba(26, 43, 76, 0.72), rgba(26, 43, 76, 0.88)),
-                        url('law1.jpeg') center / cover no-repeat fixed;
+                        url('law1.jpeg') center / cover no-repeat;
             padding: 130px 10%;
             text-align: center;
             border-bottom: 5px solid var(--accent-color);
@@ -615,6 +615,12 @@
         .modal-body a {
             color: var(--accent-color);
             text-decoration: underline;
+        }
+
+        @media (min-width: 769px) {
+            .hero {
+                background-attachment: fixed;
+            }
         }
 
         /* --- התאמה למובייל --- */
